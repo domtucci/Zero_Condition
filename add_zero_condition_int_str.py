@@ -9,28 +9,46 @@ import xlsxwriter as xl
 import PySimpleGUI as sg
 import datetime as dt
 import os
+import argparse
+from pathlib import Path
 
 def main():
-    sg.theme('DarkTeal2')
+    parser = argparse.ArgumentParser(description="Destinguish between GUI and command line")
+    parser.add_argument("-v", "--pysimple", action="store_true", help="Use the GUI if you have PySimpleGUI")
+    parser.add_argument("-c", "--command", type=str, help="Specify the JSON file path for command line mode")
+    args = parser.parse_args()
 
-    layout = [[sg.T("")],
-                [sg.Text("Upload the JSON version of the Interpretation File: "), sg.Input(key="file_path"), sg.FileBrowse(key="file_path_browse")],
-                [sg.Text('Please enter the name of this tree: '), sg.Input(key='tree_name')],
-                [sg.T("")],
-                [sg.Button("Submit", bind_return_key=True), sg.Button('Cancel')]]
+    if args.pysimple:
+        sg.theme('DarkTeal2')
 
-    window = sg.Window('Main Menu', layout, size=(800, 180))
+        layout = [[sg.T("")],
+                    [sg.Text("Upload the JSON version of the Interpretation File: "), sg.Input(key="file_path"), sg.FileBrowse(key="file_path_browse")],
+                    [sg.Text('Please enter the name of this tree: '), sg.Input(key='tree_name')],
+                    [sg.T("")],
+                    [sg.Button("Submit", bind_return_key=True), sg.Button('Cancel')]]
 
-    while True:
-        event, values = window.Read()
-        if event == sg.WIN_CLOSED or event == 'Cancel':
-            break
-        elif event == 'Submit':
-            json_file = values['file_path']
-            tree_name = values['tree_name']
-            window.close()
+        window = sg.Window('Main Menu', layout, size=(800, 180))
 
-    interp_data = json.load(open(json_file))
+        while True:
+            event, values = window.Read()
+            if event == sg.WIN_CLOSED or event == 'Cancel':
+                break
+            elif event == 'Submit':
+                json_file = values['file_path']
+                tree_name = values['tree_name']
+                window.close()
+        # config = open('config.json', 'r', encoding='utf-8')
+        # config_data = json.load(config)
+
+        interp_data = json.load(open(json_file))
+    elif args.command:
+        tree_name = input('Please enter the name of this tree: ')
+        p = Path(r'c:/Users/DV0095/Documents/Python_Projects/zero_condition/tree.json') #JSON file Path/Directory
+        # Read the JSON file
+        with p.open('r', encoding='utf-8') as file:
+
+            interp_data = json.load(file)
+
     new_json_file, dirname = create_files(tree_name)
     new_outcome_data = add_zero_condition(interp_data, tree_name, dirname)
     new_outcome_data_json = new_outcome_data.to_json(orient='records')
@@ -320,13 +338,11 @@ def cleanNullTerms(outcome_dict):
     return clean
 
 def create_files(treename):
-    dirname=".\\GENERATED_"+treename+"_ZEROCONDITION_"+dt.datetime.now().strftime("%d-%b-%Y-%H%M%S.%f")
+    dirname=".\\ZEROCONDITION_"+treename+"_Generated_"+dt.datetime.now().strftime("%d-%b-%Y-%H%M%S.%f")
     new_json_file = dirname+"\\"+treename+"_NEW.json"
     os.mkdir(dirname)
 
     return new_json_file, dirname
-
-
 
 if __name__=='__main__':
     main()
