@@ -21,21 +21,21 @@ You can run the program using PySimpleGUI if license installed. Please see **[ru
 
 or 
 
-You can run the program through the command line by assigning the file location in variable 'p' on line 39. Reference **[run w/ file location](#run-w-file-location)**
+You can run the program through the command line by assigning the file location in variable 'p' on line 46. Reference **[run w/ file location](#run-w-file-location)**
 
 ## run w/ PySimpleGUI
-Run the program by using: `py Dialogue_Reader.py -v`
+Run the program by using: `py add_zero_condition.py -v`
 
-Input a JSON file into the GUI window by clicking 'Browse'. The GUI will allow you to browse your computer files. Select the 'Tree_Dialogue_JSON_File.json' you wish to convert to CSV. Click 'Submit' and the new CSV file will be in your files where you set the directory in the terminal.
+Input a JSON file into the GUI window by clicking 'Browse'. The GUI will allow you to browse your computer files. Select the 'interpretation_JSON_File.json' you wish to convert to CSV. Click 'Submit' and the new interpretation file will be in your files where you set the directory in the terminal.
 
 ## run w/ file location
-Run the program by using: `py Dialogue_Reader.py -c p`
+Run the program by using: `py add_zero_condition.py -c p`
 
 The variable `p` should be assigned the location where the JSON file exists in the file path/directory. 
 
-`p = Path(r'c:/Users/DV0095/Documents/Python_Projects/dialogues/test.json')`
+`p = Path(r'c:/Users/DV0095/Documents/Python_Projects/zero_condition/test.json')`
 
-The new CSV file will be in your files where you set the directory in the terminal.
+The new interpretation file will be in your files where you set the directory in the terminal.
 
 ## Licenses
 Submit an Altas Request to get a developer key for the PySimpleGUI library. 'Request New Approved Software'. The library should be an option to select under the approved softwares.
